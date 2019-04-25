@@ -24,6 +24,8 @@ function userPurchase() {
     // prompt user: (INQUIRER)
     inquirer
         .prompt({
+            name: item_id,
+            type: 'input',
             // Ask about ID of desired product
             message: "What is the ID of the Item you wish to purchase?"
         })
@@ -31,16 +33,20 @@ function userPurchase() {
 
         .then(function (answer) {
                 // how to grab itemID? 
-                var query = "SELECT item_ID, product_name, department_name, price, stock_quantity FROM products WHERE ?";
+                var selectedItem = answer.item_id;
+                var quantity = answer.quantity;
+                // WHICH ONE??????
+                // var query = 'SELECT * FROM products WHERE ?';
+                // **********OR********
+                // var query = "SELECT item_ID, product_name, department_name, price, stock_quantity FROM products WHERE ?";
                 connection.query(query, {
-                    artist: answer.artist
+                    item_id: selectedItem
                 }, function (err, res) {
-                    // from top5000 activity
-                    // for (var i = 0; i < res.length; i++) {
-                    //     console.log("Position: " + res[i].position + " || Song: " + res[i].song + " || Year: " + res[i].year);
-                    // }
-                    // runSearch();
+                    if (err) throw err;
+                    // COMPLETE: and if it's not an error??
                 });
+                // DON'T FORGET: create a way to make sure the user only enters valid ID
+                //              IF NOT: "That is not a valid ID, please check the product list and try again"
             }
             // ------------------------------------------
             // Customer selects
